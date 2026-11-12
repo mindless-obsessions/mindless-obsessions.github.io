@@ -1,0 +1,15 @@
+# Single source of truth for the website. Only verified facts.
+name: Mindless Obsessions
+domain: https://mindlessobsessions.com
+tagline: Your daily dose of Roblox insanity
+description: >-
+  Mindless Obsessions is a Roblox entertainment network featuring permitted highlights from creators and
+  streamers, and an independent studio building original Roblox games.
+contact_email: mindlessobsessions007@gmail.com
+links:
+  - {label: YouTube,   url: "https://www.youtube.com/@mindlessobsessions",    icon: "▶"}
+  - {label: TikTok,    url: "https://www.tiktok.com/@mindlessobsessions",     icon: "♪"}
+  - {label: Instagram, url: "https://www.instagram.com/mindlessobsessions.gg/", icon: "◎"}
+  - {label: Discord,   url: "https://discord.gg/YAPvNquycY",                   icon: "💬"}
+discord_invite: https://discord.gg/YAPvNquycY
+policies_updated: "2026-11-12"

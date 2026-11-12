@@ -1,0 +1,37 @@
+# Add a game = add an entry. Only verified facts: no invented screenshots, dates, features or links.
+# status: in-development | testing | released.  roblox_url: only once the game is public and verified.
+games:
+  - slug: robot-and-guns-plus-1
+    name: "Robot & Guns +1"
+    genre: Castle defense · Co-op mech survival
+    status: in-development
+    summary: "Defend your castle, upgrade weapons, and battle massive bosses."
+    details: >-
+      An original Roblox castle-defense and cooperative mech-survival game with six drawbridge lanes,
+      persistent progression, and modular weapons.
+    accent: "#11f9fd"
+    roblox_url: null
+  - slug: front-yard-baseball
+    name: "Front Yard Baseball"
+    genre: Sports · Baseball
+    status: in-development
+    summary: "Backyard-style baseball with unique characters, special abilities, and competitive gameplay."
+    details: null
+    accent: "#2ec27e"
+    roblox_url: null
+  - slug: spit-on-them-tycoon
+    name: "Spit On Them Tycoon"
+    genre: Tycoon · Multiplayer chaos
+    status: in-development
+    summary: "Build your crew, upgrade your spitters, and unleash hilarious chaos!"
+    details: null
+    accent: "#fc72b7"
+    roblox_url: null
+  - slug: cat-terrarium
+    name: "Cat Terrarium: Litter Box Adventures"
+    genre: Adventure
+    status: in-development
+    summary: "A cat-filled Roblox adventure from our studio. More details soon."
+    details: null
+    accent: "#ff9f1c"
+    roblox_url: null
