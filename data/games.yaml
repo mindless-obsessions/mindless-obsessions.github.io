@@ -1,3 +1,4 @@
+# art: only owner-approved artwork or real in-game screenshots; record the source. Omit art = branded placeholder.
 # Add a game = add an entry. Only verified facts: no invented screenshots, dates, features or links.
 # status: in-development | testing | released.  roblox_url: only once the game is public and verified.
 games:
@@ -11,6 +12,8 @@ games:
       persistent progression, and modular weapons.
     accent: "#11f9fd"
     roblox_url: null
+    art: {file: robot-and-guns-plus-1, kind: key-art, alt: "Robot & Guns +1 key art: the metallic R&G+1 logo above a blue-lit castle defended by mechs and turrets while a horned monster army attacks across the drawbridges",
+          source: "rg-plus-1 assets/branding/RGPlus1-Approved.png (owner-approved, manifest sha256 481d9a17…)"}
   - slug: front-yard-baseball
     name: "Front Yard Baseball"
     genre: Sports · Baseball
@@ -27,6 +30,8 @@ games:
     details: null
     accent: "#fc72b7"
     roblox_url: null
+    art: {file: spit-on-them-tycoon, kind: screenshot, alt: "Spit On Them Tycoon in-game screenshot: rows of spitters on the stand soak tourists on a sunny boardwalk while gold tourists walk past",
+          source: "spit-street-tycoon docs/marketing/S3_thumbnail_main_full_stand.png (in-game marketing shot, Studio test save)"}
   - slug: cat-terrarium
     name: "Cat Terrarium: Litter Box Adventures"
     genre: Adventure
