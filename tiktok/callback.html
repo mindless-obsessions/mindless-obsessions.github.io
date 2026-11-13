@@ -5,3 +5,8 @@ main{max-width:860px;margin:0 auto;padding:32px 20px 60px}a{color:var(--cyan)}h1
 .links a{display:inline-block;margin:6px 8px 6px 0;padding:8px 14px;border-radius:999px;background:#2a2160;text-decoration:none}
 header{text-align:center}header img{max-width:min(420px,90%);height:auto}small,.mute{color:var(--mute)}footer{text-align:center;margin-top:40px}</style></head><body><main>
 <header><img src="/assets/mascot.png" alt="" width="160"><h1>TikTok connected ✅</h1><p class="mute">You can close this window. The Mindless Obsessions Publisher on our computer finishes the connection.</p></header>
+<p id="finish" style="display:none"><a id="finishlink" href="#">Finish connecting on this computer →</a></p>
+<script>/* Pass TikTok's one-time sign-in code to the Mindless Obsessions Publisher running on our own computer (localhost only). */
+(function(){var q=location.search;if(/[?&]code=/.test(q)&&/[?&]state=/.test(q)){var t="http://127.0.0.1:8765/tiktok/finish"+q;
+document.getElementById("finishlink").href=t;document.getElementById("finish").style.display="block";location.replace(t);}})();</script>
+
