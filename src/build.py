@@ -217,6 +217,62 @@ def home_game_card(g):
 <h3>{E(g['name'])}</h3><p>{E(g['summary'])}</p><span class="go">View game →</span></div></a>"""
 
 
+def join_page():
+    """One-tap Discord landing page (TikTok bio destination). Focused: no nav, one big button."""
+    inv = SITE["discord_invite"]
+    g = next((x for x in GAMES if x["slug"] == "spit-on-them-tycoon"), {})
+    title = "Join our Discord · Spit On Them Tycoon"
+    desc = "Join the Mindless Obsessions Discord for Spit On Them Tycoon launch updates, sneak peeks and the community."
+    perks = [("🚀", "Launch-day ping", f"Be first to know when Spit On Them Tycoon goes live on Roblox ({E(g.get('launch_note', 'coming soon'))})."),
+             ("👀", "Sneak peeks", "New characters, updates and clips in #spit-updates before anywhere else."),
+             ("😂", "Hang out", "Chat Roblox, share your funniest clips and fan art with other players."),
+             ("💡", "Shape the game", "Drop ideas in #suggestions. The devs read them.")]
+    cards = "".join(f'<li><span class="e" aria-hidden="true">{e}</span><div><b>{t}</b><p>{d}</p></div></li>' for e, t, d in perks)
+    return f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{E(title)}</title><meta name="description" content="{E(desc)}"><link rel="canonical" href="{D}/join/">
+<link rel="icon" href="/assets/favicon-64.png"><link rel="apple-touch-icon" href="/assets/favicon-180.png"><meta name="theme-color" content="#0d0b24">
+<meta property="og:type" content="website"><meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}">
+<meta property="og:url" content="{D}/join/"><meta property="og:image" content="{D}/assets/og-1200x630.png"><meta name="twitter:card" content="summary_large_image">
+<style>
+:root{{color-scheme:dark}}*{{box-sizing:border-box}}
+body{{margin:0;min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#fff;text-align:center;
+background:radial-gradient(120% 70% at 50% 0%,#3b1466 0%,#160c33 55%,#0d0b24 100%);padding:28px 16px calc(32px + env(safe-area-inset-bottom))}}
+.w{{max-width:520px;margin:0 auto}}
+.m{{width:min(56vw,230px);height:auto;filter:drop-shadow(0 12px 30px rgba(252,114,183,.45));animation:b 2.6s ease-in-out infinite}}
+@keyframes b{{50%{{transform:translateY(-8px) rotate(-2deg)}}}}
+@media (prefers-reduced-motion:reduce){{.m{{animation:none}}}}
+.k{{display:inline-block;margin:14px 0 6px;font-weight:800;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:#11f9fd}}
+h1{{margin:0;font-size:clamp(2.3rem,11vw,3.4rem);line-height:.95;font-weight:950;letter-spacing:-.02em;
+background:linear-gradient(90deg,#fc72b7,#ffd84d);-webkit-background-clip:text;background-clip:text;color:transparent}}
+.sub{{color:#d8d2ff;font-size:1.08rem;margin:12px 0 4px}}
+.date{{display:inline-block;background:#ffd84d;color:#1a0f2e;font-weight:900;padding:6px 12px;border-radius:10px;margin:10px 0 18px}}
+.cta{{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:72px;border-radius:20px;background:#5865f2;color:#fff;
+text-decoration:none;font-weight:950;font-size:1.45rem;letter-spacing:.02em;box-shadow:0 14px 40px rgba(88,101,242,.55);animation:p 1.8s ease-in-out infinite}}
+@keyframes p{{50%{{box-shadow:0 14px 56px rgba(88,101,242,.9)}}}}
+.cta:active{{transform:scale(.98)}}
+.inv{{margin:10px 0 0;color:#a9a3d9;font-size:.92rem}}.inv a{{color:#a9b2ff}}
+ul{{list-style:none;padding:0;margin:26px 0 22px;text-align:left;display:grid;gap:12px}}
+li{{display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px}}
+li .e{{font-size:1.7rem;line-height:1}}li b{{font-size:1.05rem}}li p{{margin:3px 0 0;color:#cfc9f5;font-size:.95rem}}
+.cta.two{{min-height:62px;font-size:1.2rem;animation:none}}
+.f{{margin-top:22px;font-size:.85rem;color:#8f89c0}}.f a{{color:#c9c3ff}}
+</style></head>
+<body><main class="w">
+<img class="m" src="/assets/mascot-clear-256.webp" alt="The Mindless Obsessions brain mascot" width="230" height="230">
+<span class="k">Mindless Obsessions presents</span>
+<h1>SPIT ON THEM TYCOON</h1>
+<p class="sub">Our hilarious Roblox tycoon is almost here. Join the Discord and be there for launch.</p>
+{f'<span class="date">{E(g["launch_note"])} · not released yet</span>' if g.get("launch_note") else ""}
+<a class="cta" href="{inv}" rel="noopener">{DISCORD_SVG}<span>JOIN OUR DISCORD</span></a>
+<p class="inv">Official invite: <a href="{inv}" rel="noopener">{E(inv.replace("https://", ""))}</a> · free · 13+</p>
+<ul>{cards}</ul>
+<a class="cta two" href="{inv}" rel="noopener">{DISCORD_SVG}<span>JOIN THE DISCORD</span></a>
+<p class="f">Follow us: <a href="https://www.tiktok.com/@mindlessobsessions">TikTok</a> · <a href="https://www.youtube.com/@mindlessobsessions">YouTube</a> · <a href="https://www.instagram.com/mindlessobsessions.gg/">Instagram</a> · <a href="/">mindlessobsessions.com</a><br>
+Roblox is a trademark of Roblox Corporation; we are not affiliated with or endorsed by Roblox.</p>
+</main></body></html>"""
+
+
 def launch_section():
     g = next((x for x in GAMES if x["slug"] == "spit-on-them-tycoon"), None)
     if not g:
@@ -393,11 +449,12 @@ def build():
     out["404.html"] = page("/404.html", "Page not found", "This page does not exist.", f"""
 <section class="prose" style="text-align:center;padding:60px 0"><img src="/assets/mascot-256.png" alt="Confused Mindless Obsessions mascot" width="180" height="180">
 <h1>404: our brain lost this page</h1><p class="lead">It may have moved. Try the <a href="/">home page</a> or <a href="/games/">our games</a>.</p></section>""")
+    out["join/index.html"] = join_page()
     # Keep old URLs used by the TikTok developer app working.
     for old, new in (("terms.html", "/legal/terms/"), ("privacy.html", "/legal/privacy/")):
         out[old] = (f'<!doctype html><meta charset="utf-8"><title>Moved</title><link rel="canonical" href="{D}{new}">'
                     f'<meta http-equiv="refresh" content="0; url={new}"><p>Moved to <a href="{new}">{new}</a>.</p>')
-    urls = ["/", "/games/", *[f"/games/{g['slug']}/" for g in GAMES], "/creators/", "/community/", "/about/", "/contact/",
+    urls = ["/", "/join/", "/games/", *[f"/games/{g['slug']}/" for g in GAMES], "/creators/", "/community/", "/about/", "/contact/",
             "/legal/privacy/", "/legal/terms/", "/legal/copyright/", "/legal/data-deletion/", "/legal/cookies/"]
     out["sitemap.xml"] = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + "".join(
         f"<url><loc>{D}{u}</loc><lastmod>{dt.date.today()}</lastmod></url>" for u in urls) + "</urlset>\n"
