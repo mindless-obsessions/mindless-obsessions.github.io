@@ -30,13 +30,15 @@ games:
     genre: Tycoon · Multiplayer chaos
     status: in-development
     summary: "Build your crew, upgrade your spitters, and unleash hilarious chaos!"
-    pitch: "Hire a crew of ridiculous spitters, merge them up through 24 tiers, and soak the tourists on the boardwalk."
-    launch_note: "Target launch: November 23, 2026"
+    pitch: "A silly, chaotic Roblox tycoon all about spitting on unsuspecting tourists. COMING SOON!"
+    launch_note: "COMING SOON!"   # owner 2026-11-14: no public release date until the owner authorizes one
     details: null
     accent: "#fc72b7"
     roblox_url: null
-    art: {file: spit-on-them-tycoon, kind: screenshot, alt: "Spit On Them Tycoon in-game screenshot (build v76): the stand packed with the game's spitter characters on the boardwalk, with the SPIT button and Free Aim toggle",
-          source: "spit-street-tycoon docs/playtest/Claude_v76_stand_all_tiers_phone.jpg (build v76 = place version 85, Studio phone test)"}
+    art: null   # owner 2026-11-14: v76 visuals are obsolete (spitters/goblins being redesigned); was:
+    # art: {file: spit-on-them-tycoon, kind: screenshot, alt: "Spit On Them Tycoon in-game screenshot (build v76): the stand packed with the game's spitter characters on the boardwalk, with the SPIT button and Free Aim toggle",
+    # source: "spit-street-tycoon docs/playtest/Claude_v76_stand_all_tiers_phone.jpg (build v76 = place version 85, Studio phone test)"}
+
   - slug: cat-terrarium
     promote: false   # owner 2026-11-13: not approved for public promotion (kept, not shown)
     name: "Cat Terrarium: Litter Box Adventures"

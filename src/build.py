@@ -197,7 +197,10 @@ def handle(l):
 
 
 def art_picture(g, sizes, eager=False):
-    a = g["art"]
+    a = g.get("art")
+    if not a:  # no approved art yet (e.g. visuals being redesigned): branded placeholder, never an old screenshot
+        return ('<div class="art" style="margin:0"><img src="/assets/mascot-256.png" alt="" width="160" height="160">'
+                '<small>New look coming soon</small></div>')
     f = f"/assets/games/{a['file']}"
     return (f'<picture><source type="image/webp" srcset="{f}-800.webp 800w, {f}-1600.webp 1600w" sizes="{sizes}">'
             f'<img src="{f}-800.webp" alt="{E(a["alt"])}" width="800" height="{450 if a["kind"] == "screenshot" else 450}"'
