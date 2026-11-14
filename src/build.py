@@ -15,7 +15,9 @@ import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = yaml.safe_load(open(ROOT / "data/site.yaml"))
-GAMES = yaml.safe_load(open(ROOT / "data/games.yaml"))["games"]
+ALL_GAMES = yaml.safe_load(open(ROOT / "data/games.yaml"))["games"]
+# Only games the owner has approved for public promotion appear anywhere on the site (promote: true).
+GAMES = [g for g in ALL_GAMES if g.get("promote")]
 D = SITE["domain"].rstrip("/")
 E = html.escape
 STATUS = {"in-development": "In development", "testing": "Testing", "released": "Out now on Roblox"}
@@ -68,7 +70,21 @@ footer a{color:var(--mute)}footer nav{display:flex;flex-wrap:wrap;gap:6px 16px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 """
 
+DISCORD_SVG = ('<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M19.6 5.3A17 17 0 0 0 15.4 4l-.5 1.1a15.6 15.6 0 0 0-5.8 0L8.6 4a17 17 0 0 0-4.2 1.3C1.7 9.3 1 13.2 1.3 17.1A17 17 0 0 0 6.5 19.7l1.1-1.8a11 11 0 0 1-1.7-.8l.4-.3a12.2 12.2 0 0 0 11.4 0l.4.3c-.5.3-1.1.6-1.7.8l1.1 1.8a17 17 0 0 0 5.2-2.6c.4-4.5-.7-8.4-3.1-11.8zM8.5 14.7c-1 0-1.9-1-1.9-2.1s.8-2.1 1.9-2.1 1.9 1 1.9 2.1-.8 2.1-1.9 2.1zm7 0c-1 0-1.9-1-1.9-2.1s.8-2.1 1.9-2.1 1.9 1 1.9 2.1-.8 2.1-1.9 2.1z"/></svg>')
+
 HOME_CSS = """
+.navdc{margin-left:auto;background:#5865f2;color:#fff!important;font-weight:900;padding:9px 16px;border-radius:999px;text-decoration:none;white-space:nowrap}
+.navdc:hover{background:#4752c4}
+.dbar{position:fixed;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));z-index:60;display:none;align-items:center;justify-content:center;gap:10px;
+background:#5865f2;color:#fff;font-weight:900;font-size:1.08rem;letter-spacing:.02em;padding:15px 18px;border-radius:16px;text-decoration:none;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+@media (max-width:760px){.dbar{display:flex}body{padding-bottom:84px}.navdc{display:none}}
+.h-launch{display:grid;grid-template-columns:1.2fr 1fr;gap:0;border-radius:28px;overflow:hidden;border:2px solid #fc72b7;background:#1a0f2e;margin-top:8px;box-shadow:0 30px 80px rgba(252,114,183,.18)}
+.h-launch picture,.h-launch img{display:block;width:100%;height:100%;object-fit:cover}
+.h-launch .txt{padding:30px;display:flex;flex-direction:column;justify-content:center}
+.h-launch h2{font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.02;margin:10px 0}
+.h-launch .date{display:inline-block;background:#ffd84d;color:#1a0f2e;font-weight:900;padding:6px 12px;border-radius:10px;margin:6px 0 14px}
+.btn.dc{background:#5865f2;color:#fff;border-color:#5865f2}
+@media (max-width:860px){.h-launch{grid-template-columns:1fr}.h-launch .txt{padding:22px}}
 /* ---- Homepage (h-*) ---- */
 .h-wrap{max-width:1180px;margin:0 auto;padding:0 20px}
 main.home{max-width:none;padding:0;overflow-x:clip}
@@ -201,19 +217,31 @@ def home_game_card(g):
 <h3>{E(g['name'])}</h3><p>{E(g['summary'])}</p><span class="go">View game →</span></div></a>"""
 
 
+def launch_section():
+    g = next((x for x in GAMES if x["slug"] == "spit-on-them-tycoon"), None)
+    if not g:
+        return ""
+    return f"""<section class="h-sec" id="spit" aria-labelledby="lt"><p class="h-kicker">Coming to Roblox</p>
+<div class="h-launch"><a href="/games/{g['slug']}/" tabindex="-1" aria-hidden="true">{art_picture(g, "(max-width:860px) 100vw, 640px", eager=True)}</a>
+<div class="txt"><div><span class="pill dev">Not released yet</span><span class="pill">{E(g['genre'])}</span></div>
+<h2 id="lt">{E(g['name'])}</h2><p>{E(g.get('pitch') or g['summary'])}</p>
+{f'<span class="date">{E(g["launch_note"])}</span>' if g.get("launch_note") else ""}
+<div class="btns"><a class="btn dc big" href="{SITE['discord_invite']}" rel="noopener" target="_blank">Join the Discord for launch day</a><a class="btn ghost" href="/games/{g['slug']}/">About the game</a></div></div></div></section>"""
+
+
 def home_body():
     by = {g["slug"]: g for g in GAMES}
-    feat = by.get("robot-and-guns-plus-1")
+    feat = by.get("spit-on-them-tycoon")
     icons = "".join(f'<a class="h-ico {ICONS[l["label"]][0]}" href="{E(l["url"])}" rel="me noopener" target="_blank" aria-label="{E(l["label"])}">{ICONS[l["label"]][1]}</a>'
                     for l in SITE["links"] if l["label"] in ICONS)
     socials = "".join(f'<a class="h-soc {ICONS[l["label"]][0]}" href="{E(l["url"])}" rel="me noopener" target="_blank">{ICONS[l["label"]][1]}'
                       f'<div><b>{E(l["label"])}</b><br><small>{E(handle(l))}</small></div><span class="arr">{"Join" if l["label"] == "Discord" else "Follow"} →</span></a>'
                       for l in SITE["links"] if l["label"] in ICONS)
     words = ["Original Roblox games", "Creator highlights", "Funny moments", "Epic clips", "New games always in the lab",
-             "Permission-first", "Castle defense", "Sports", "Tycoon", "Adventure"]
+             "Permission-first", "Tycoon", "Multiplayer chaos"]
     tick = "".join(f"{E(w)}<b>✦</b>" for w in words)
     feature = ""
-    if feat and feat.get("art"):
+    if feat and feat.get("art") and feat["slug"] != "spit-on-them-tycoon":
         feature = f"""<div class="h-feature"><a href="/games/{feat['slug']}/" tabindex="-1" aria-hidden="true">{art_picture(feat, "(max-width:980px) 100vw, 700px", eager=True)}</a>
 <div class="txt"><div><span class="pill dev">{STATUS[feat['status']]}</span><span class="pill">{E(feat['genre'])}</span></div>
 <h3>{E(feat['name'])}</h3><p>{E(feat['summary'])}</p>{f"<p>{E(feat['details'])}</p>" if feat.get('details') else ""}
@@ -221,24 +249,25 @@ def home_body():
     cards = "".join(home_game_card(g) for g in GAMES if not (feature and g is feat))
     nxt = f"""<a class="h-game next" style="--accent:#a98bff" href="{SITE['discord_invite']}" rel="noopener" target="_blank">
 <div class="pic"><span class="inf" aria-hidden="true">∞</span></div><div class="body"><div><span class="pill">Game #{len(GAMES) + 1} and beyond</span></div>
-<h3>The next obsession is in the lab</h3><p>We don't stop at {len(GAMES)}. New genres, new chaos, new games, one after another. Follow along and help test them on Discord.</p>
+<h3>The next obsession is in the lab</h3><p>New genres, new chaos, new games. Follow along on Discord.</p>
 <span class="go">Get updates on Discord →</span></div></a>"""
     return f"""
 <section class="h-hero"><div class="h-wrap"><div>
 <span class="h-eyebrow"><i></i>Roblox game studio + entertainment network</span>
 <h1><span class="nw">Your daily dose of</span> <em>Roblox insanity</em></h1>
 <p class="h-sub">We build original Roblox games, and we share the funniest, most epic moments from Roblox creators, with their permission. New games. New creators. Endless obsessions.</p>
-<div class="btns"><a class="btn primary big" href="#games">Explore our games</a><a class="btn ghost big" href="{SITE['discord_invite']}" rel="noopener" target="_blank">Join the Discord</a></div>
+<div class="btns"><a class="btn dc big" href="{SITE['discord_invite']}" rel="noopener" target="_blank">Join our Discord</a><a class="btn ghost big" href="#spit">Spit On Them Tycoon</a></div>
 <div class="h-follow"><span>Follow us</span>{icons}</div></div>
 <div class="h-logo"><img src="/assets/logo-640.png" alt="Mindless Obsessions logo: a grinning pink brain wearing headphones, holding a game controller" width="640" height="495" fetchpriority="high"></div>
 </div></section>
 <div class="h-ticker" aria-hidden="true"><div>{tick}{tick}</div></div>
 
 <div class="h-wrap">
+{launch_section()}
 <section class="h-sec" aria-labelledby="two"><p class="h-kicker">What we do</p><h2 id="two">Two things. One obsession.</h2>
 <div class="h-pillars">
 <div class="h-pillar" style="--glow:#11f9fd;--glowtxt:#7ffcff"><span class="tag">The studio</span><h3>We make Roblox games</h3>
-<p>Original games across genres: castle defense, sports, tycoon and adventure. Four in development right now, and we're not stopping at four.</p><a href="#games">See our games →</a></div>
+<p>Original Roblox games. Our first, Spit On Them Tycoon, is in development right now, and more ideas are in the lab.</p><a href="#games">See our games →</a></div>
 <div class="h-pillar" style="--glow:#fc72b7;--glowtxt:#ffb0d8"><span class="tag">The network</span><h3>We share Roblox's best moments</h3>
 <p>Funny moments, wins, fails and wild challenges from Roblox creators and streamers, posted only with their permission and always credited.</p><a href="#creators">How highlights work →</a></div>
 </div></section>
@@ -285,8 +314,9 @@ def page(path, title, desc, body, active=None, main_class=""):
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{D}/assets/og-1200x630.png">
 <link rel="stylesheet" href="/assets/site.css"><script type="application/ld+json">{ld}</script></head>
 <body><a class="skip" href="#main">Skip to content</a>
-<header class="top"><nav class="nav" aria-label="Main"><a class="brand" href="/"><img src="/assets/mascot-96.png" alt="" width="42" height="42">Mindless Obsessions</a>{nav}</nav></header>
+<header class="top"><nav class="nav" aria-label="Main"><a class="brand" href="/"><img src="/assets/mascot-96.png" alt="" width="42" height="42">Mindless Obsessions</a>{nav}<a class="navdc" href="{SITE['discord_invite']}" rel="noopener" target="_blank">Join Discord</a></nav></header>
 <main id="main"{f' class="{main_class}"' if main_class else ""}>{body}</main>
+<a class="dbar" href="{SITE['discord_invite']}" rel="noopener" target="_blank">{DISCORD_SVG}<span>JOIN OUR DISCORD</span></a>
 <footer class="bottom"><div class="in"><div>© {dt.date.today().year} {E(SITE['name'])}. Roblox is a trademark of Roblox Corporation; we are not affiliated with or endorsed by Roblox.</div>
 <nav aria-label="Social">{links}</nav>
 <nav aria-label="Legal"><a href="/legal/privacy/">Privacy</a><a href="/legal/terms/">Terms</a><a href="/legal/copyright/">Copyright</a><a href="/legal/data-deletion/">Data deletion</a><a href="/legal/cookies/">Cookies</a></nav></div></footer>
@@ -325,10 +355,10 @@ def build():
         details = f"<p>{E(g['details'])}</p>" if g.get("details") else ""
         out[f"games/{g['slug']}/index.html"] = page(f"/games/{g['slug']}/", g["name"], g["summary"], f"""
 <section class="prose" style="--accent:{g['accent']}"><p><a href="/games/">← All games</a></p>
-<div class="art" style="max-width:640px"><img src="/assets/mascot-256.png" alt=""><small>Official artwork and screenshots coming soon</small></div>
+{('<div style="max-width:720px;border-radius:18px;overflow:hidden">' + art_picture(g, "(max-width:760px) 100vw, 720px", eager=True) + '</div><p><small>In-game screenshot · in development</small></p>') if g.get('art') else '<div class="art" style="max-width:640px"><img src="/assets/mascot-256.png" alt=""><small>Official artwork and screenshots coming soon</small></div>'}
 <span class="pill dev">{STATUS[g['status']]}</span><span class="pill">{E(g['genre'])}</span>
 <h1>{E(g['name'])}</h1><p class="lead">{E(g['summary'])}</p>{details}
-<div class="btns">{roblox}</div>
+{f'<p><strong>{E(g["launch_note"])}</strong></p>' if g.get("launch_note") else ""}<div class="btns">{roblox}<a class="btn dc" href="{SITE['discord_invite']}" rel="noopener" target="_blank">Join our Discord</a></div>
 <h2>Updates</h2><p>Development updates are posted first in our <a href="{SITE['discord_invite']}">Discord</a> and on our social channels.</p></section>""", "/games/")
     out["creators/index.html"] = page("/creators/", "Creator highlights", "How Mindless Obsessions features Roblox creators: permission first, always credited.", f"""
 <section class="prose"><h1>Creator highlights</h1>
@@ -343,7 +373,7 @@ def build():
     out["community/index.html"] = page("/community/", "Community", "Join the Mindless Obsessions community on Discord and social media.", f"""
 <section>{discord_block()}</section>
 <section class="prose"><h2>What's on the server</h2><ul><li>General chat, Roblox chat, clips &amp; memes, fan art and suggestions</li>
-<li>A dedicated space for each of our games, with update channels and bug reports</li><li>Optional ping roles for the games you care about</li></ul>
+<li>Game updates, testing and bug reports</li></ul>
 <p>Please read the server rules when you join. Discord requires members to be at least 13.</p>
 <h2>Follow us</h2>{social_links()}
 <h2>Creator collaborations</h2><p>Roblox creators can reach us about highlights and collaborations: <a href="/contact/">contact us</a>.</p></section>""", "/community/")
@@ -351,7 +381,7 @@ def build():
 <section class="prose"><h1>About Mindless Obsessions</h1>
 <p class="lead">We're two things at once: a Roblox entertainment network and an independent Roblox game studio.</p>
 <h2>The network</h2><p>We share the funniest, craziest and most epic Roblox moments across YouTube, TikTok and Instagram, featuring creators and streamers who've given us permission, always with credit.</p>
-<h2>The studio</h2><p>We build original Roblox games across genres, from castle defense and sports to tycoons and adventures, and we're not stopping at four. See <a href="/games/">our games</a>.</p>
+<h2>The studio</h2><p>We build original Roblox games. Our first, Spit On Them Tycoon, is in development. See <a href="/games/">our games</a>.</p>
 <h2>Our community</h2><p>Our <a href="{SITE['discord_invite']}">Discord</a> is home base: game updates, testing, clips and fan art.</p></section>""", "/about/")
     out["contact/index.html"] = page("/contact/", "Contact", "Contact Mindless Obsessions for business, creator collaborations and permission requests.", f"""
 <section class="prose"><h1>Contact</h1>
