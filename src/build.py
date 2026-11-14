@@ -268,7 +268,7 @@ li .e{{font-size:1.7rem;line-height:1}}li b{{font-size:1.05rem}}li p{{margin:3px
 <p class="inv">Official invite: <a href="{inv}" rel="noopener">{E(inv.replace("https://", ""))}</a> · free · 13+</p>
 <ul>{cards}</ul>
 <a class="cta two" href="{inv}" rel="noopener">{DISCORD_SVG}<span>JOIN THE DISCORD</span></a>
-<p class="f">Follow us: <a href="https://www.tiktok.com/@mindlessobsessions">TikTok</a> · <a href="https://www.youtube.com/@mindlessobsessions">YouTube</a> · <a href="https://www.instagram.com/mindlessobsessions.gg/">Instagram</a> · <a href="/">mindlessobsessions.com</a><br>
+<p class="f">Follow us: <a href="https://www.tiktok.com/@mindlessobsessions">TikTok</a> · <a href="https://www.youtube.com/@mindlessobsessions">YouTube</a> · <a href="https://www.instagram.com/mindlessobsessions.gg/">Instagram</a> · <a href="/?stay=1">Visit the website</a><br>
 Roblox is a trademark of Roblox Corporation; we are not affiliated with or endorsed by Roblox.</p>
 </main></body></html>"""
 
@@ -402,6 +402,8 @@ def build():
     out = {}
     cards = "".join(game_card(g) for g in GAMES)
     out["index.html"] = page("/", f"{SITE['name']}: Roblox entertainment network & game studio", SITE["description"], home_body(), "/", "home")
+    out["index.html"] = out["index.html"].replace("<head>", """<head><script>(function(){try{var q=location.search,r=document.referrer||"",u=navigator.userAgent||"";
+if(q.indexOf("stay=1")<0&&(/tiktok\\.com/i.test(r)||/musical_ly|BytedanceWebview|TikTok/i.test(u))){location.replace("/join/?from=tiktok")}}catch(e){}})();</script>""", 1)
     out["games/index.html"] = page("/games/", "Our games", "Original Roblox games from the Mindless Obsessions studio.", f"""
 <section><h1>Our games</h1><p class="lead">Every game below is an original Mindless Obsessions project. Status reflects where it really is; we will add Roblox links when a game is publicly available.</p>
 <div class="grid">{cards}</div></section><section>{discord_block()}</section>""", "/games/")
