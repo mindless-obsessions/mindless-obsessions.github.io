@@ -50,6 +50,9 @@ background:#5865f2;color:#fff;font-weight:900;font-size:1.08rem;letter-spacing:.
 @media (max-width:760px){.dbar{display:flex}body{padding-bottom:84px}.navdc{display:none}}
 .h-launch{display:grid;grid-template-columns:1.2fr 1fr;gap:0;border-radius:28px;overflow:hidden;border:2px solid #fc72b7;background:#1a0f2e;margin-top:8px;box-shadow:0 30px 80px rgba(252,114,183,.18)}
 .h-launch picture,.h-launch img{display:block;width:100%;height:100%;object-fit:cover}
+.h-launch .art{aspect-ratio:auto;height:100%;min-height:260px;margin:0;border:0;border-radius:0;padding:28px;box-sizing:border-box}
+.h-launch .art img{width:80%;max-width:440px;height:auto;object-fit:contain;margin:0 auto}
+.art img{height:auto;object-fit:contain}
 .h-launch .txt{padding:30px;display:flex;flex-direction:column;justify-content:center}
 .h-launch h2{font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.02;margin:10px 0}
 .h-launch .date{display:inline-block;background:#ffd84d;color:#1a0f2e;font-weight:900;padding:6px 12px;border-radius:10px;margin:6px 0 14px}

@@ -80,6 +80,9 @@ background:#5865f2;color:#fff;font-weight:900;font-size:1.08rem;letter-spacing:.
 @media (max-width:760px){.dbar{display:flex}body{padding-bottom:84px}.navdc{display:none}}
 .h-launch{display:grid;grid-template-columns:1.2fr 1fr;gap:0;border-radius:28px;overflow:hidden;border:2px solid #fc72b7;background:#1a0f2e;margin-top:8px;box-shadow:0 30px 80px rgba(252,114,183,.18)}
 .h-launch picture,.h-launch img{display:block;width:100%;height:100%;object-fit:cover}
+.h-launch .art{aspect-ratio:auto;height:100%;min-height:260px;margin:0;border:0;border-radius:0;padding:28px;box-sizing:border-box}
+.h-launch .art img{width:80%;max-width:440px;height:auto;object-fit:contain;margin:0 auto}
+.art img{height:auto;object-fit:contain}
 .h-launch .txt{padding:30px;display:flex;flex-direction:column;justify-content:center}
 .h-launch h2{font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.02;margin:10px 0}
 .h-launch .date{display:inline-block;background:#ffd84d;color:#1a0f2e;font-weight:900;padding:6px 12px;border-radius:10px;margin:6px 0 14px}
@@ -199,7 +202,7 @@ def handle(l):
 def art_picture(g, sizes, eager=False):
     a = g.get("art")
     if not a:  # no approved art yet (e.g. visuals being redesigned): branded placeholder, never an old screenshot
-        return ('<div class="art" style="margin:0"><img src="/assets/mascot-256.png" alt="" width="160" height="160">'
+        return ('<div class="art" style="margin:0"><img src="/assets/logo-v3-480.png" alt="Mindless Obsessions logo" width="480" height="386">'
                 '<small>New look coming soon</small></div>')
     f = f"/assets/games/{a['file']}"
     return (f'<picture><source type="image/webp" srcset="{f}-800.webp 800w, {f}-1600.webp 1600w" sizes="{sizes}">'
@@ -213,7 +216,7 @@ def home_game_card(g):
         lbl = "Official key art" if g["art"]["kind"] == "key-art" else "In-game screenshot · in development"
         pic = art_picture(g, "(max-width:600px) 100vw, 380px") + f'<span class="lbl">{lbl}</span>'
     else:
-        pic = (f'<div class="h-ph"><div><img class="m" src="/assets/mascot-clear-256.webp" alt="" width="64" height="64">'
+        pic = (f'<div class="h-ph"><div><img class="m" src="/assets/logo-v3-480.png" alt="" width="80" height="64">'
                f'<strong>{E(g["name"])}</strong></div></div><span class="lbl">Artwork coming soon</span>')
     return f"""<a class="h-game" style="--accent:{g['accent']}" href="/games/{g['slug']}/">
 <div class="pic">{pic}</div><div class="body"><div><span class="pill {'live' if st == 'released' else 'dev'}">{STATUS[st]}</span><span class="pill">{E(g['genre'])}</span></div>
@@ -236,7 +239,7 @@ def join_page():
 <title>{E(title)}</title><meta name="description" content="{E(desc)}"><link rel="canonical" href="{D}/join/">
 <link rel="icon" href="/assets/favicon-64.png"><link rel="apple-touch-icon" href="/assets/favicon-180.png"><meta name="theme-color" content="#0d0b24">
 <meta property="og:type" content="website"><meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}">
-<meta property="og:url" content="{D}/join/"><meta property="og:image" content="{D}/assets/og-v2-1200x630.png"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="{D}/join/"><meta property="og:image" content="{D}/assets/og-v3-1200x630.png"><meta name="twitter:card" content="summary_large_image">
 <style>
 :root{{color-scheme:dark}}*{{box-sizing:border-box}}
 body{{margin:0;min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#fff;text-align:center;
@@ -262,7 +265,7 @@ li .e{{font-size:1.7rem;line-height:1}}li b{{font-size:1.05rem}}li p{{margin:3px
 .f{{margin-top:22px;font-size:.85rem;color:#8f89c0}}.f a{{color:#c9c3ff}}
 </style></head>
 <body><main class="w">
-<img class="m" src="/assets/mascot-clear-256.webp" alt="The Mindless Obsessions brain mascot" width="230" height="230">
+<img class="m" src="/assets/logo-v3-480.png" alt="Mindless Obsessions logo" width="230" height="185">
 <span class="k">Mindless Obsessions presents</span>
 <h1>SPIT ON THEM TYCOON</h1>
 <p class="sub">Our hilarious Roblox tycoon is almost here. Join the Discord and be there for launch.</p>
@@ -317,7 +320,7 @@ def home_body():
 <p class="h-sub">We build original Roblox games, and we share the funniest, most epic moments from Roblox creators, with their permission. New games. New creators. Endless obsessions.</p>
 <div class="btns"><a class="btn dc big" href="{SITE['discord_invite']}" rel="noopener" target="_blank">Join our Discord</a><a class="btn ghost big" href="#spit">Spit On Them Tycoon</a></div>
 <div class="h-follow"><span>Follow us</span>{icons}</div></div>
-<div class="h-logo"><img src="/assets/logo-v2-640.png" alt="Mindless Obsessions logo: a grinning pink brain wearing headphones, holding a game controller" width="640" height="505" fetchpriority="high"></div>
+<div class="h-logo"><img src="/assets/logo-v3-720.png" alt="Mindless Obsessions logo: a grinning pink brain wearing headphones, holding a game controller" width="722" height="580" fetchpriority="high"></div>
 </div></section>
 <div class="h-ticker" aria-hidden="true"><div>{tick}{tick}</div></div>
 
@@ -346,7 +349,7 @@ def home_body():
 <section class="h-sec" aria-labelledby="ft"><p class="h-kicker">Follow the obsession</p><h2 id="ft">Find us everywhere</h2>
 <div class="h-socials">{socials}</div></section>
 
-<section class="h-discord" aria-labelledby="dt"><img src="/assets/mascot-clear-256.webp" alt="The Mindless Obsessions brain mascot" width="150" height="150" loading="lazy">
+<section class="h-discord" aria-labelledby="dt"><img src="/assets/logo-v3-480.png" alt="The Mindless Obsessions brain mascot" width="150" height="150" loading="lazy">
 <div><h2 id="dt">Join the community on Discord</h2><p>Chat Roblox, share clips and fan art, get game updates first, and help test what we build.</p>
 <a class="btn white big" href="{SITE['discord_invite']}" rel="noopener" target="_blank">Join our Discord</a></div></section>
 </div>"""
@@ -362,18 +365,18 @@ def page(path, title, desc, body, active=None, main_class=""):
     links = "".join(f'<a href="{E(l["url"])}" rel="me noopener" target="_blank">{E(l["label"])}</a>' for l in SITE["links"])
     full_title = title if title.startswith(SITE["name"]) else f"{title} · {SITE['name']}"
     ld = json.dumps({"@context": "https://schema.org", "@type": "Organization", "name": SITE["name"], "url": D,
-                     "logo": f"{D}/assets/mascot-512.png", "sameAs": [l["url"] for l in SITE["links"]]})
+                     "logo": f"{D}/assets/logo-circle-v3-512.png", "sameAs": [l["url"] for l in SITE["links"]]})
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(full_title)}</title><meta name="description" content="{E(desc)}">
 <link rel="canonical" href="{canonical}"><link rel="icon" href="/assets/favicon-64.png"><link rel="apple-touch-icon" href="/assets/favicon-180.png">
 <meta name="theme-color" content="#0d0b24">
 <meta property="og:type" content="website"><meta property="og:site_name" content="{E(SITE['name'])}"><meta property="og:title" content="{E(full_title)}">
-<meta property="og:description" content="{E(desc)}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{D}/assets/og-v2-1200x630.png">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{D}/assets/og-v2-1200x630.png">
+<meta property="og:description" content="{E(desc)}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{D}/assets/og-v3-1200x630.png">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{D}/assets/og-v3-1200x630.png">
 <link rel="stylesheet" href="/assets/site.css"><script type="application/ld+json">{ld}</script></head>
 <body><a class="skip" href="#main">Skip to content</a>
-<header class="top"><nav class="nav" aria-label="Main"><a class="brand" href="/"><img src="/assets/mascot-96.png" alt="" width="42" height="42">Mindless Obsessions</a>{nav}<a class="navdc" href="{SITE['discord_invite']}" rel="noopener" target="_blank">Join Discord</a></nav></header>
+<header class="top"><nav class="nav" aria-label="Main"><a class="brand" href="/"><img src="/assets/logo-circle-v3-96.png" alt="" width="42" height="42">Mindless Obsessions</a>{nav}<a class="navdc" href="{SITE['discord_invite']}" rel="noopener" target="_blank">Join Discord</a></nav></header>
 <main id="main"{f' class="{main_class}"' if main_class else ""}>{body}</main>
 <a class="dbar" href="{SITE['discord_invite']}" rel="noopener" target="_blank">{DISCORD_SVG}<span>JOIN OUR DISCORD</span></a>
 <footer class="bottom"><div class="in"><div>© {dt.date.today().year} {E(SITE['name'])}. Roblox is a trademark of Roblox Corporation; we are not affiliated with or endorsed by Roblox.</div>
@@ -385,7 +388,7 @@ def page(path, title, desc, body, active=None, main_class=""):
 def game_card(g):
     st = g["status"]
     return f"""<a class="card game" style="--accent:{g['accent']}" href="/games/{g['slug']}/">
-<div class="art"><img src="/assets/mascot-256.png" alt="" loading="lazy"><small>Artwork coming soon</small></div>
+<div class="art"><img src="/assets/logo-v3-480.png" alt="Mindless Obsessions logo" loading="lazy"><small>Artwork coming soon</small></div>
 <span class="pill {'live' if st == 'released' else 'dev'}">{STATUS[st]}</span><span class="pill">{E(g['genre'])}</span>
 <h3>{E(g['name'])}</h3><p>{E(g['summary'])}</p></a>"""
 
@@ -396,7 +399,7 @@ def social_links():
 
 
 def discord_block():
-    return f"""<div class="discord"><img src="/assets/mascot-256.png" alt="Mindless Obsessions mascot">
+    return f"""<div class="discord"><img src="/assets/logo-circle-v3-192.png" alt="Mindless Obsessions logo">
 <div><h2 style="margin:0">Join the community on Discord</h2><p class="lead">Chat Roblox, share your clips and fan art, get game updates, and help test what we build.</p>
 <a class="btn primary" href="{SITE['discord_invite']}" rel="noopener" target="_blank">Join our Discord</a></div></div>"""
 
@@ -416,7 +419,7 @@ if(q.indexOf("stay=1")<0&&(/tiktok\\.com/i.test(r)||/musical_ly|BytedanceWebview
         details = f"<p>{E(g['details'])}</p>" if g.get("details") else ""
         out[f"games/{g['slug']}/index.html"] = page(f"/games/{g['slug']}/", g["name"], g["summary"], f"""
 <section class="prose" style="--accent:{g['accent']}"><p><a href="/games/">← All games</a></p>
-{('<div style="max-width:720px;border-radius:18px;overflow:hidden">' + art_picture(g, "(max-width:760px) 100vw, 720px", eager=True) + '</div><p><small>In-game screenshot · in development</small></p>') if g.get('art') else '<div class="art" style="max-width:640px"><img src="/assets/mascot-256.png" alt=""><small>Official artwork and screenshots coming soon</small></div>'}
+{('<div style="max-width:720px;border-radius:18px;overflow:hidden">' + art_picture(g, "(max-width:760px) 100vw, 720px", eager=True) + '</div><p><small>In-game screenshot · in development</small></p>') if g.get('art') else '<div class="art" style="max-width:640px"><img src="/assets/logo-v3-480.png" alt="Mindless Obsessions logo" width="480" height="386"><small>Official artwork and screenshots coming soon</small></div>'}
 <span class="pill dev">{STATUS[g['status']]}</span><span class="pill">{E(g['genre'])}</span>
 <h1>{E(g['name'])}</h1><p class="lead">{E(g['summary'])}</p>{details}
 {f'<p><strong>{E(g["launch_note"])}</strong></p>' if g.get("launch_note") else ""}<div class="btns">{roblox}<a class="btn dc" href="{SITE['discord_invite']}" rel="noopener" target="_blank">Join our Discord</a></div>
@@ -452,7 +455,7 @@ if(q.indexOf("stay=1")<0&&(/tiktok\\.com/i.test(r)||/musical_ly|BytedanceWebview
 <div class="card"><h3>Privacy &amp; data deletion</h3><p>See <a href="/legal/data-deletion/">how to request deletion</a>.</p></div></div></section>""", "/contact/")
     legal(out)
     out["404.html"] = page("/404.html", "Page not found", "This page does not exist.", f"""
-<section class="prose" style="text-align:center;padding:60px 0"><img src="/assets/mascot-256.png" alt="Confused Mindless Obsessions mascot" width="180" height="180">
+<section class="prose" style="text-align:center;padding:60px 0"><img src="/assets/logo-v3-480.png" alt="Confused Mindless Obsessions mascot" width="180" height="180">
 <h1>404: our brain lost this page</h1><p class="lead">It may have moved. Try the <a href="/">home page</a> or <a href="/games/">our games</a>.</p></section>""")
     out["join/index.html"] = join_page()
     # Keep old URLs used by the TikTok developer app working.
