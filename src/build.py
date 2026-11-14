@@ -236,7 +236,7 @@ def join_page():
 <title>{E(title)}</title><meta name="description" content="{E(desc)}"><link rel="canonical" href="{D}/join/">
 <link rel="icon" href="/assets/favicon-64.png"><link rel="apple-touch-icon" href="/assets/favicon-180.png"><meta name="theme-color" content="#0d0b24">
 <meta property="og:type" content="website"><meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}">
-<meta property="og:url" content="{D}/join/"><meta property="og:image" content="{D}/assets/og-1200x630.png"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="{D}/join/"><meta property="og:image" content="{D}/assets/og-v2-1200x630.png"><meta name="twitter:card" content="summary_large_image">
 <style>
 :root{{color-scheme:dark}}*{{box-sizing:border-box}}
 body{{margin:0;min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#fff;text-align:center;
@@ -317,7 +317,7 @@ def home_body():
 <p class="h-sub">We build original Roblox games, and we share the funniest, most epic moments from Roblox creators, with their permission. New games. New creators. Endless obsessions.</p>
 <div class="btns"><a class="btn dc big" href="{SITE['discord_invite']}" rel="noopener" target="_blank">Join our Discord</a><a class="btn ghost big" href="#spit">Spit On Them Tycoon</a></div>
 <div class="h-follow"><span>Follow us</span>{icons}</div></div>
-<div class="h-logo"><img src="/assets/logo-640.png" alt="Mindless Obsessions logo: a grinning pink brain wearing headphones, holding a game controller" width="640" height="495" fetchpriority="high"></div>
+<div class="h-logo"><img src="/assets/logo-v2-640.png" alt="Mindless Obsessions logo: a grinning pink brain wearing headphones, holding a game controller" width="640" height="505" fetchpriority="high"></div>
 </div></section>
 <div class="h-ticker" aria-hidden="true"><div>{tick}{tick}</div></div>
 
@@ -369,8 +369,8 @@ def page(path, title, desc, body, active=None, main_class=""):
 <link rel="canonical" href="{canonical}"><link rel="icon" href="/assets/favicon-64.png"><link rel="apple-touch-icon" href="/assets/favicon-180.png">
 <meta name="theme-color" content="#0d0b24">
 <meta property="og:type" content="website"><meta property="og:site_name" content="{E(SITE['name'])}"><meta property="og:title" content="{E(full_title)}">
-<meta property="og:description" content="{E(desc)}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{D}/assets/og-1200x630.png">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{D}/assets/og-1200x630.png">
+<meta property="og:description" content="{E(desc)}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{D}/assets/og-v2-1200x630.png">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{D}/assets/og-v2-1200x630.png">
 <link rel="stylesheet" href="/assets/site.css"><script type="application/ld+json">{ld}</script></head>
 <body><a class="skip" href="#main">Skip to content</a>
 <header class="top"><nav class="nav" aria-label="Main"><a class="brand" href="/"><img src="/assets/mascot-96.png" alt="" width="42" height="42">Mindless Obsessions</a>{nav}<a class="navdc" href="{SITE['discord_invite']}" rel="noopener" target="_blank">Join Discord</a></nav></header>
