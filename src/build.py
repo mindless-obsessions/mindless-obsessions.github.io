@@ -262,6 +262,56 @@ text-decoration:none;font-weight:900;font-size:1.3rem;box-shadow:0 14px 40px rgb
 </main></body></html>"""
 
 
+def links_page():
+    """/links = our own branded link hub (TikTok website field). Destinations come ONLY from data/site.yaml (the
+    verified account registry): Discord (primary), YouTube, Instagram, website. Labels, never raw URLs. No scripts,
+    no trackers, no third-party services. COMING SOON only — no dates, no gameplay, no character art."""
+    inv = SITE["discord_invite"]
+    by = {l["label"]: l["url"] for l in SITE["links"]}
+    sec = [("YouTube", by["YouTube"], "Mindless Obsessions on YouTube"), ("Instagram", by["Instagram"], "@mindlessobsessions.gg")]
+    title = "Mindless Obsessions · Links"
+    desc = "Official links for Mindless Obsessions: Discord, YouTube, Instagram. Spit On Them Tycoon is coming soon to Roblox."
+    btns = "".join(f'<a class="b {ICONS[n][0]}" href="{E(u)}" rel="me noopener">{ICONS[n][1]}<span><b>{E(n)}</b><small>{E(sub)}</small></span></a>'
+                   for n, u, sub in sec)
+    return f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{E(title)}</title><meta name="description" content="{E(desc)}"><link rel="canonical" href="{D}/links/">
+<link rel="icon" href="/assets/favicon-64.png"><link rel="apple-touch-icon" href="/assets/favicon-180.png"><meta name="theme-color" content="#0d0b24">
+<meta property="og:type" content="website"><meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}">
+<meta property="og:url" content="{D}/links/"><meta property="og:image" content="{D}/assets/og-v3-1200x630.png"><meta name="twitter:card" content="summary_large_image">
+<style>
+:root{{color-scheme:dark}}*{{box-sizing:border-box}}
+body{{margin:0;min-height:100vh;min-height:100dvh;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#fff;text-align:center;
+background:radial-gradient(120% 70% at 50% 0%,#3b1466 0%,#160c33 55%,#0d0b24 100%);padding:28px 16px calc(28px + env(safe-area-inset-bottom))}}
+.w{{width:100%;max-width:440px;margin:0 auto}}
+.m{{width:min(46vw,180px);height:auto;filter:drop-shadow(0 12px 30px rgba(252,114,183,.45))}}
+h1{{margin:12px 0 4px;font-size:clamp(1.9rem,9.5vw,2.6rem);line-height:.95;font-weight:950;letter-spacing:-.02em;
+background:linear-gradient(90deg,#fc72b7,#ffd84d);-webkit-background-clip:text;background-clip:text;color:transparent}}
+.soon{{display:inline-block;background:#ffd84d;color:#1a0f2e;font-weight:900;padding:5px 12px;border-radius:10px;margin:6px 0 4px;letter-spacing:.04em}}
+.by{{margin:6px 0 22px;color:#bdb6ea;font-size:.95rem}}
+.cta{{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:68px;border-radius:18px;background:#5865f2;color:#fff;
+text-decoration:none;font-weight:900;font-size:1.35rem;box-shadow:0 14px 40px rgba(88,101,242,.55);margin-bottom:14px}}
+.cta svg{{width:30px;height:30px}}
+.b{{display:flex;align-items:center;gap:14px;width:100%;min-height:62px;padding:12px 18px;border-radius:16px;margin-bottom:12px;color:#fff;text-decoration:none;
+text-align:left;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14)}}
+.b svg{{width:28px;height:28px;flex:none}}.b span{{display:flex;flex-direction:column}}.b b{{font-size:1.08rem}}.b small{{color:#c9c3f0;font-size:.85rem}}
+.b.yt svg{{color:#ff3b3b}}.b.ig svg{{color:#f77fbf}}
+.web{{display:inline-block;margin-top:6px;color:#c9c3ff;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(201,195,255,.4)}}
+.cta:active,.b:active{{transform:scale(.985)}}
+.f{{margin-top:22px;font-size:.78rem;color:#8f89c0}}
+</style></head>
+<body><main class="w">
+<img class="m" src="/assets/logo-v3-480.png" alt="Mindless Obsessions" width="180" height="145">
+<h1>SPIT ON THEM TYCOON</h1>
+<span class="soon">COMING SOON</span>
+<p class="by">by Mindless Obsessions · Roblox game studio</p>
+<a class="cta" href="{E(inv)}" rel="noopener">{DISCORD_SVG}<span>Join Our Discord</span></a>
+{btns}
+<a class="web" href="/?stay=1">Visit Our Website</a>
+<p class="f">Roblox is a trademark of Roblox Corporation; we are not affiliated with or endorsed by Roblox.</p>
+</main></body></html>"""
+
+
 def launch_section():
     g = next((x for x in GAMES if x["slug"] == "spit-on-them-tycoon"), None)
     if not g:
@@ -441,11 +491,12 @@ if(q.indexOf("stay=1")<0&&(/tiktok\\.com/i.test(r)||/musical_ly|BytedanceWebview
 <section class="prose" style="text-align:center;padding:60px 0"><img src="/assets/logo-v3-480.png" alt="Confused Mindless Obsessions mascot" width="180" height="180">
 <h1>404: our brain lost this page</h1><p class="lead">It may have moved. Try the <a href="/">home page</a> or <a href="/games/">our games</a>.</p></section>""")
     out["join/index.html"] = join_page()
+    out["links/index.html"] = links_page()
     # Keep old URLs used by the TikTok developer app working.
     for old, new in (("terms.html", "/legal/terms/"), ("privacy.html", "/legal/privacy/")):
         out[old] = (f'<!doctype html><meta charset="utf-8"><title>Moved</title><link rel="canonical" href="{D}{new}">'
                     f'<meta http-equiv="refresh" content="0; url={new}"><p>Moved to <a href="{new}">{new}</a>.</p>')
-    urls = ["/", "/join/", "/games/", *[f"/games/{g['slug']}/" for g in GAMES], "/creators/", "/community/", "/about/", "/contact/",
+    urls = ["/", "/links/", "/join/", "/games/", *[f"/games/{g['slug']}/" for g in GAMES], "/creators/", "/community/", "/about/", "/contact/",
             "/legal/privacy/", "/legal/terms/", "/legal/copyright/", "/legal/data-deletion/", "/legal/cookies/"]
     out["sitemap.xml"] = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + "".join(
         f"<url><loc>{D}{u}</loc><lastmod>{dt.date.today()}</lastmod></url>" for u in urls) + "</urlset>\n"
