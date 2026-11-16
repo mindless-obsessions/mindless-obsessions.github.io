@@ -66,7 +66,8 @@ section{margin:46px 0}h2{font-size:clamp(1.5rem,3vw,2.1rem);margin:.2em 0 .5em}
 footer.bottom{border-top:1px solid var(--line);margin-top:40px}
 footer .in{max-width:1120px;margin:0 auto;padding:26px 20px;display:flex;flex-wrap:wrap;gap:16px 30px;color:var(--mute);font-size:.95rem}
 footer a{color:var(--mute)}footer nav{display:flex;flex-wrap:wrap;gap:6px 16px}
-@media (max-width:820px){.nav{gap:4px 16px;padding:8px 16px}.nav .brand{flex:1 1 100%}.nav .brand img{width:36px;height:36px}.nav{overflow-x:auto;flex-wrap:wrap}.nav a.l{font-size:.92rem;padding:4px 0;white-space:nowrap}.hero{grid-template-columns:1fr;text-align:center;padding-top:30px}.hero p{margin:0 auto}.btns{justify-content:center}.hero .logo{max-width:320px;order:-1}}
+@media (max-width:820px){footer nav{gap:0 18px}footer nav a{display:inline-flex;align-items:center;min-height:44px}}
+@media (max-width:820px){.nav{gap:4px 16px;padding:8px 16px}.nav .brand{flex:1 1 100%}.nav .brand img{width:36px;height:36px}.nav{overflow-x:auto;flex-wrap:wrap}.nav a.l{font-size:.92rem;padding:4px 0;white-space:nowrap;display:inline-flex;align-items:center;min-height:44px}.hero{grid-template-columns:1fr;text-align:center;padding-top:30px}.hero p{margin:0 auto}.btns{justify-content:center}.hero .logo{max-width:320px;order:-1}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 """
 
@@ -264,13 +265,14 @@ text-decoration:none;font-weight:900;font-size:1.3rem;box-shadow:0 14px 40px rgb
 
 def links_page():
     """/links = our own branded link hub (TikTok website field). Destinations come ONLY from data/site.yaml (the
-    verified account registry): Discord (primary), YouTube, Instagram, website. Labels, never raw URLs. No scripts,
+    verified account registry): Discord (primary), TikTok, YouTube, Instagram, website. Labels, never raw URLs. No scripts,
     no trackers, no third-party services. COMING SOON only — no dates, no gameplay, no character art."""
     inv = SITE["discord_invite"]
     by = {l["label"]: l["url"] for l in SITE["links"]}
-    sec = [("YouTube", by["YouTube"], "Mindless Obsessions on YouTube"), ("Instagram", by["Instagram"], "@mindlessobsessions.gg")]
+    sec = [("TikTok", by["TikTok"], "@mindlessobsessions"), ("YouTube", by["YouTube"], "@mindlessobsessions"),
+           ("Instagram", by["Instagram"], "@mindlessobsessions.gg")]
     title = "Mindless Obsessions · Links"
-    desc = "Official links for Mindless Obsessions: Discord, YouTube, Instagram. Spit On Them Tycoon is coming soon to Roblox."
+    desc = "Official links for Mindless Obsessions: Discord, TikTok, YouTube, Instagram. Spit On Them Tycoon is coming soon to Roblox."
     btns = "".join(f'<a class="b {ICONS[n][0]}" href="{E(u)}" rel="me noopener">{ICONS[n][1]}<span><b>{E(n)}</b><small>{E(sub)}</small></span></a>'
                    for n, u, sub in sec)
     return f"""<!doctype html>
@@ -295,8 +297,13 @@ text-decoration:none;font-weight:900;font-size:1.35rem;box-shadow:0 14px 40px rg
 .b{{display:flex;align-items:center;gap:14px;width:100%;min-height:62px;padding:12px 18px;border-radius:16px;margin-bottom:12px;color:#fff;text-decoration:none;
 text-align:left;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14)}}
 .b svg{{width:28px;height:28px;flex:none}}.b span{{display:flex;flex-direction:column}}.b b{{font-size:1.08rem}}.b small{{color:#c9c3f0;font-size:.85rem}}
-.b.yt svg{{color:#ff3b3b}}.b.ig svg{{color:#f77fbf}}
-.web{{display:inline-block;margin-top:6px;color:#c9c3ff;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(201,195,255,.4)}}
+.b.yt svg{{color:#ff3b3b}}.b.ig svg{{color:#f77fbf}}.b.tt svg{{color:#11f9fd;filter:drop-shadow(1px 1px 0 #fc72b7)}}
+.cta,.b,.web{{transition:transform .15s ease,background .15s ease,border-color .15s ease,box-shadow .15s ease}}
+.cta:focus-visible,.b:focus-visible,.web:focus-visible{{outline:3px solid #11f9fd;outline-offset:3px}}
+@media (hover:hover){{.cta:hover{{transform:translateY(-2px);box-shadow:0 18px 48px rgba(88,101,242,.7)}}
+.b:hover{{transform:translateY(-2px);background:rgba(255,255,255,.12);border-color:rgba(17,249,253,.55)}}.web:hover{{color:#fff;text-decoration-color:#11f9fd}}}}
+@media (prefers-reduced-motion:reduce){{.cta,.b,.web{{transition:none}}.cta:hover,.b:hover{{transform:none}}}}
+.web{{display:inline-flex;align-items:center;min-height:44px;margin-top:2px;color:#c9c3ff;font-weight:700;text-decoration:underline;text-decoration-color:rgba(201,195,255,.45);text-underline-offset:5px}}
 .cta:active,.b:active{{transform:scale(.985)}}
 .f{{margin-top:22px;font-size:.78rem;color:#8f89c0}}
 </style></head>
@@ -468,6 +475,7 @@ if(q.indexOf("stay=1")<0&&(/tiktok\\.com/i.test(r)||/musical_ly|BytedanceWebview
 <h2>Featured creators</h2><p>Our first permitted highlights are coming soon.</p>
 <h2>Are you a Roblox creator?</h2><p>Want your best moments featured? Email <a href="mailto:{SITE['contact_email']}?subject=Creator%20highlights">{SITE['contact_email']}</a> with your channel link, or reach us on <a href="{SITE['discord_invite']}">Discord</a>.</p></section>""", "/creators/")
     out["community/index.html"] = page("/community/", "Community", "Join the Mindless Obsessions community on Discord and social media.", f"""
+<section class="prose"><h1>Community</h1></section>
 <section>{discord_block()}</section>
 <section class="prose"><h2>What's on the server</h2><ul><li>General chat, Roblox chat, clips &amp; memes, fan art and suggestions</li>
 <li>Game updates, testing and bug reports</li></ul>
